@@ -7,7 +7,8 @@ from django.test import TestCase
 
 class CommandTests(TestCase):
     def test_wait_for_db_ready(self):
-        """test that wait for DB when DB is available"""
+        """test that waits for DB when DB is available"""
+        # see https://docs.python.org/3/library/unittest.mock.html
         with patch('django.db.utils.ConnectionHandler.__getitem__') as gi:
             gi.return_value = True
             call_command('wait_for_db')

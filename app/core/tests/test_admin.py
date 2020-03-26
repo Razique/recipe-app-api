@@ -10,6 +10,8 @@ class AdminSiteTests(TestCase):
             email='admin@domain.com',
             password='password123'
         )
+        # see https://docs.djangoproject.com/en/3.0/topics/testing/tools/
+        # #django.test.Client.force_login
         self.client.force_login(self.admin_user)
         self.user = get_user_model().objects.create_user(
             email='test@domain.com',
@@ -33,7 +35,7 @@ class AdminSiteTests(TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_create_user_page(self):
-        """test that the crete user page works"""
+        """test that the create user page works"""
         url = reverse('admin:core_user_add')
         res = self.client.get(url)
 

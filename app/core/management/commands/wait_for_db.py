@@ -5,10 +5,13 @@ from django.db.utils import OperationalError
 from django.core.management.base import BaseCommand
 
 
+# Creation of a custom Django command
+# see https://docs.djangoproject.com/en/3.0/howto/custom-management-commands/
 class Command(BaseCommand):
     """Django command to pause execution until database is available"""
     def handle(self, *args, **options):
         self.stdout.write('Pausing the connection to the database...')
+
         db_conn = None
         while not db_conn:
             try:

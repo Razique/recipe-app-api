@@ -3,11 +3,14 @@ from django.contrib.auth.models import AbstractBaseUser,\
     BaseUserManager, PermissionsMixin
 
 
+# Allow us to override the default user model
+# see: https://testdriven.io/blog/django-custom-user-model/
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         """Create and save a new user"""
         if not email:
             raise ValueError("Users must have an email address")
+
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -25,8 +28,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """Custom user model that supports using email
-       instead of username
+    """Custom user model that supports the usage
+       email instead of username
     """
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)

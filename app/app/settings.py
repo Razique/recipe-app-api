@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'core',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -74,6 +77,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# See docker-compose.yml for these values
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -123,4 +127,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Overrides the default user model
+# see https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 AUTH_USER_MODEL = 'core.User'
