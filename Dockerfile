@@ -1,12 +1,12 @@
 FROM python:3.7-alpine
-MAINTAINER Razique Mahroua <rmahroua@mailbox.org>
+LABEL maintainer="Razique Mahroua <rmahroua@mailbox.org>"
 
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
-RUN apk add --update --no-cache postgresql-client
+RUN apk add --update --no-cache postgresql-client jpeg-dev
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
-      gcc libc-dev linux-headers postgresql-dev
+      gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
 RUN pip install -r /requirements.txt
 RUN apk del .tmp-build-deps
 
@@ -14,5 +14,11 @@ RUN mkdir /app
 WORKDIR /app
 COPY ./app /app
 
+# Create the folder for storing images and static resources
+RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/static
 RUN adduser -D user
+# Set ownership and permissions on the directory
+RUN chown -R user:user /vol/
+RUN chmod -R 755 /vol/web
 USER user
