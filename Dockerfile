@@ -14,11 +14,14 @@ RUN mkdir /app
 WORKDIR /app
 COPY ./app /app
 
+RUN adduser -D user
+
 # Create the folder for storing images and static resources
 RUN mkdir -p /vol/web/media
 RUN mkdir -p /vol/web/static
-RUN adduser -D user
+
 # Set ownership and permissions on the directory
 RUN chown -R user:user /vol/
 RUN chmod -R 755 /vol/web
+
 USER user
